@@ -1,0 +1,2187 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>近體詩格律創作與吟詠工坊</title>
+  
+  <!-- Google Fonts 書法字體支援 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Long+Cang&family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Long+Cang&family=Noto+Serif+TC:wght@500;700;900&display=swap');
+
+    :root {
+      --bg-paper: #f5eee1;
+      --bg-card: #fffdf9;
+      --primary-red: #8b342a;
+      --secondary-green: #2c594c;
+      --gold-accent: #c49a45;
+      --ink-dark: #1e1916;
+      --ink-muted: #574c43;
+      --border-color: #dcd0bf;
+      --ping-color: #236c56;
+      --ze-color: #a84234;
+      --ru-color: #8c2d58; /* 入聲特殊紫紅 */
+      --nav-height: 64px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Noto Serif TC", "PingFang TC", "Microsoft JhengHei", serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-paper);
+      color: var(--ink-dark);
+      background-image: radial-gradient(#e1d3bf 1px, transparent 1px);
+      background-size: 22px 22px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding-bottom: calc(var(--nav-height) + env(safe-area-inset-bottom) + 20px);
+    }
+
+    /* 頂部殿堂標頭 */
+    .top-hero-header {
+      background: linear-gradient(135deg, #2b211a 0%, #16100c 100%);
+      color: #f7eedb;
+      padding: 18px 24px;
+      border-bottom: 3px solid var(--gold-accent);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.2);
+    }
+
+    .hero-title-box h1 {
+      font-size: 1.45rem;
+      color: var(--gold-accent);
+      letter-spacing: 2px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero-subtitle {
+      font-size: 0.84rem;
+      color: #d8cbba;
+      margin-top: 4px;
+    }
+
+    .hero-badge-tag {
+      background: rgba(196, 154, 69, 0.18);
+      border: 1px solid var(--gold-accent);
+      color: #faeed9;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.78rem;
+    }
+
+    /* 兩大宗師心法快速絲帶 (Master Theory Ribbon) */
+    .theory-ribbon {
+      background: #ebdcc4;
+      border-bottom: 1.5px solid var(--border-color);
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 0.86rem;
+      color: var(--ink-dark);
+    }
+
+    .theory-chip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.7);
+      padding: 4px 12px;
+      border-radius: 14px;
+      border: 1px solid #d4c2aa;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .theory-chip:hover {
+      background: #fff;
+      border-color: var(--primary-red);
+      transform: translateY(-1px);
+    }
+
+    /* 主容器 */
+    .main-container {
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* 分頁區塊 */
+    .tab-section {
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    .tab-section.active-tab {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .craft-card {
+      background: var(--bg-card);
+      border: 2px solid var(--primary-red);
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 16px rgba(40, 30, 20, 0.07);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      color: var(--primary-red);
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* 體裁配置網格 */
+    .config-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      background: #fbf5ec;
+      padding: 14px;
+      border-radius: 8px;
+      border: 1px solid #e3d6c3;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .form-label {
+      font-size: 0.82rem;
+      font-weight: bold;
+      color: var(--secondary-green);
+    }
+
+    .select-box, .text-input {
+      padding: 8px 10px;
+      border: 1.5px solid var(--border-color);
+      border-radius: 6px;
+      background: #fff;
+      font-size: 0.9rem;
+      color: var(--ink-dark);
+      outline: none;
+    }
+
+    .select-box:focus, .text-input:focus {
+      border-color: var(--primary-red);
+    }
+
+    /* 曾永義四大基模與音律動力儀 */
+    .melody-vis-panel {
+      background: #231b16;
+      color: #faedd9;
+      border-radius: 8px;
+      padding: 14px 18px;
+      border: 1.5px solid var(--gold-accent);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .vis-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.9rem;
+      color: var(--gold-accent);
+      font-weight: bold;
+    }
+
+    .melody-wave-box {
+      font-family: monospace;
+      font-size: 0.86rem;
+      line-height: 1.7;
+      background: #140e0b;
+      padding: 10px 14px;
+      border-radius: 6px;
+      border: 1px solid #433327;
+      overflow-x: auto;
+    }
+
+    /* 逐句創作卡片與平仄對照燈 */
+    .verse-card {
+      background: #fff;
+      border: 1.5px solid #ded2c0;
+      border-radius: 8px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .verse-card:focus-within {
+      border-color: var(--primary-red);
+      box-shadow: 0 0 0 3px rgba(139, 52, 42, 0.1);
+    }
+
+    .verse-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.82rem;
+      color: var(--ink-muted);
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .verse-badge {
+      font-weight: bold;
+      color: var(--secondary-green);
+    }
+
+    .verse-input-field {
+      width: 100%;
+      font-size: 1.3rem;
+      letter-spacing: 5px;
+      padding: 8px 12px;
+      border: 1.5px solid #d4c5b2;
+      border-radius: 6px;
+      background: #fdfaf4;
+      color: var(--ink-dark);
+      outline: none;
+      font-weight: 500;
+    }
+
+    .verse-input-field:focus {
+      background: #fff;
+      border-color: var(--secondary-green);
+    }
+
+    /* 雪廬老人符號譜標記列 (— ｜ ▲ ◎) */
+    .xuelu-notation-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      background: #f4ece0;
+      padding: 4px 8px;
+      border-radius: 4px;
+      color: #634f3f;
+    }
+
+    .xuelu-symbol-badge {
+      font-weight: bold;
+      font-family: monospace;
+      padding: 1px 6px;
+      border-radius: 3px;
+      background: #fff;
+      border: 1px solid #d8caa5;
+    }
+
+    /* 逐字平仄四聲微觀標籤 */
+    .char-metric-row {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    .char-cell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 44px;
+      padding: 4px 2px;
+      border-radius: 4px;
+      background: #f6efe2;
+      border: 1px solid #e0d2be;
+      font-size: 0.75rem;
+      position: relative;
+    }
+
+    .char-glyph {
+      font-size: 1.15rem;
+      font-weight: bold;
+      margin-bottom: 2px;
+    }
+
+    .char-spec {
+      color: var(--ink-muted);
+      font-size: 0.7rem;
+    }
+
+    .char-tone-tag {
+      font-size: 0.68rem;
+      font-weight: bold;
+      padding: 1px 4px;
+      border-radius: 3px;
+      margin-top: 2px;
+    }
+
+    .tag-ping { background: #e0f2ec; color: var(--ping-color); }
+    .tag-ze { background: #fde8e5; color: var(--ze-color); }
+    .tag-ru { background: #f9e4f0; color: var(--ru-color); border: 1px solid #d99fbf; font-weight: 900; }
+    .tag-free { background: #fef4e6; color: #b86214; }
+
+    /* ══════════════════════════════════════════
+       雪廬老人《吟誦常則》互動吟誦導引面板
+       ══════════════════════════════════════════ */
+    .chant-player-card {
+      background: linear-gradient(135deg, #2d231c 0%, #1c1511 100%);
+      color: #f7eedb;
+      border: 2px solid var(--gold-accent);
+      border-radius: 10px;
+      padding: 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    }
+
+    .chant-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px dashed rgba(212, 167, 74, 0.4);
+      padding-bottom: 8px;
+    }
+
+    .chant-header h3 {
+      font-size: 1.15rem;
+      color: var(--gold-accent);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chant-rule-reminder {
+      font-size: 0.8rem;
+      color: #d1c4b2;
+      background: rgba(0,0,0,0.25);
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .chant-controls {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-chant-play {
+      background: linear-gradient(135deg, var(--gold-accent) 0%, #a67d2e 100%);
+      color: #1a120b;
+      border: none;
+      padding: 10px 22px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-chant-play:hover {
+      background: #f0c367;
+      transform: translateY(-2px);
+    }
+
+    .btn-chant-stop {
+      background: #44352b;
+      color: #f7eedb;
+      border: 1px solid #775e4e;
+      padding: 10px 18px;
+      font-size: 0.95rem;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    /* 逐字提詞光標容器 (Prompter) */
+    .prompter-stage {
+      background: #120d0a;
+      border: 1.5px solid #4a3a2e;
+      border-radius: 8px;
+      padding: 16px;
+      min-height: 110px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      text-align: center;
+    }
+
+    .prompter-lines {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .prompter-line-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.4rem;
+      letter-spacing: 6px;
+    }
+
+    .prompt-char {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      transition: all 0.15s ease;
+      color: #aaa;
+    }
+
+    .prompt-char.active-glow {
+      color: #ffd778;
+      background: rgba(196, 154, 69, 0.35);
+      transform: scale(1.22);
+      box-shadow: 0 0 14px rgba(255, 215, 120, 0.7);
+      font-weight: bold;
+    }
+
+    .prompt-pause-mark {
+      font-size: 0.9rem;
+      color: #c49a45;
+      letter-spacing: 0;
+      margin: 0 2px;
+    }
+
+    /* 拗救指南針卡片 */
+    .niujiu-box {
+      background: #fef7ee;
+      border-left: 4px solid #d9822b;
+      padding: 12px 16px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      display: none;
+    }
+
+    /* 四聲遞換雷達 */
+    .tone-radar-box {
+      background: #f1f7f5;
+      border: 1.5px solid #bddacf;
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-size: 0.88rem;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .btn-main {
+      background: linear-gradient(135deg, var(--primary-red) 0%, #68231a 100%);
+      color: #fff;
+      border: none;
+      padding: 12px 26px;
+      font-size: 1rem;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(139, 52, 42, 0.25);
+      transition: all 0.2s;
+      letter-spacing: 1px;
+    }
+
+    .btn-main:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(139, 52, 42, 0.35);
+    }
+
+    .btn-secondary {
+      background: var(--secondary-green);
+      color: #fff;
+      border: none;
+      padding: 10px 18px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    /* 成果詩卡展示 */
+    .card-preview-area {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      background: #eee1cd;
+      border-radius: 8px;
+      border: 2px solid var(--gold-accent);
+      margin-top: 10px;
+    }
+
+    .canvas-scroll-wrapper {
+      max-width: 100%;
+      overflow-x: auto;
+      border: 3px solid var(--gold-accent);
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+      background: #fff;
+      margin: 14px 0;
+    }
+
+    #poemCanvas {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* 底部固定導航 */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: calc(var(--nav-height) + env(safe-area-inset-bottom));
+      padding-bottom: env(safe-area-inset-bottom);
+      background: #251d18;
+      border-top: 2px solid var(--gold-accent);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 999;
+      box-shadow: 0 -4px 16px rgba(0,0,0,0.25);
+    }
+
+    .nav-btn {
+      flex: 1;
+      height: 100%;
+      background: transparent;
+      border: none;
+      color: #b3a393;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      cursor: pointer;
+      font-size: 0.75rem;
+      font-weight: bold;
+      transition: all 0.15s;
+    }
+
+    .nav-btn.active-nav {
+      color: var(--gold-accent);
+      background: rgba(196, 154, 69, 0.14);
+    }
+
+    .nav-icon {
+      font-size: 1.25rem;
+    }
+
+    /* 靈感詞庫抽屜專用樣式 */
+    .btn-inspiration-toggle {
+      background: transparent;
+      border: 1.5px dashed var(--gold-accent);
+      color: #9c7324;
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s ease;
+    }
+    .btn-inspiration-toggle:hover {
+      background: #fbf5e8;
+      border-style: solid;
+      color: var(--primary-red);
+    }
+    .verse-inspiration-drawer {
+      background: #fdfaf4;
+      border: 1.5px solid #e5d8c3;
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 0.85rem;
+      box-shadow: inset 0 1px 4px rgba(0,0,0,0.03);
+    }
+    .insp-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .insp-group-title {
+      font-size: 0.78rem;
+      font-weight: bold;
+      color: var(--secondary-green);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .insp-badge-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .vocab-badge-btn {
+      background: #fff;
+      border: 1px solid #dcd0bf;
+      color: #2b231d;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .vocab-badge-btn:hover {
+      background: var(--primary-red);
+      color: #fff;
+      border-color: var(--primary-red);
+      transform: translateY(-1px);
+    }
+    .vocab-tone-sub {
+      font-size: 0.7rem;
+      color: #887869;
+    }
+    .vocab-badge-btn:hover .vocab-tone-sub {
+      color: #ffe6e2;
+    }
+    .couplet-pair-btn {
+      background: #f7f1e6;
+      border: 1px solid #c9b79f;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.82rem;
+      cursor: pointer;
+      color: #3b2c22;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .couplet-pair-btn:hover {
+      background: var(--secondary-green);
+      color: #fff;
+      border-color: var(--secondary-green);
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- 頂部標頭 -->
+  <header class="top-hero-header">
+    <div class="hero-title-box">
+      <h1><span>🖋️ 近體詩格律創作與吟詠工坊</span></h1>
+      <div class="hero-subtitle">【練習重點】：即時平仄審定 · 入聲字辨析 · 詩境意象推敲 · 雪廬古風吟誦導引（融通雪廬老人《聲調舉隅》《吟誦常則》與曾永義院士體製學）</div>
+    </div>
+    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+      <span class="hero-badge-tag" style="background:var(--gold-accent); color:#1a120b; font-weight:bold;">🎯 近體詩實作練習平台</span>
+      <span class="hero-badge-tag">雪廬老人《聲調舉隅》《吟誦常則》</span>
+      <span class="hero-badge-tag">曾永義教授《近體詩體製規律》</span>
+      <span class="hero-badge-tag">臺中女中 鄭雅芬老師 策畫</span>
+    </div>
+  </header>
+
+  <!-- 宗師學理快速絲帶 -->
+  <div class="theory-ribbon">
+    <div class="theory-chip" onclick="showTheoryTab(1)">
+      <span>🎵 <strong>雪廬老人《聲調舉隅》</strong>：律絕聲調十六式 · 定通符號譜（— ｜ ▲ ◎）</span>
+    </div>
+    <div class="theory-chip" onclick="showTheoryTab(2)">
+      <span>🎙️ <strong>雪廬老人《吟誦常則》</strong>：平長仄短 · 入聲急促 · 停應守聲可變</span>
+    </div>
+    <div class="theory-chip" onclick="showTheoryTab(3)">
+      <span>🎼 <strong>體製四大基模</strong>：A(平平平仄仄) · a · B · b（對黏旋律論）</span>
+    </div>
+    <div class="theory-chip" onclick="showTheoryTab(4)">
+      <span>🛡️ <strong>格律正變與拗救</strong>：小借大借句變 · 杜甫促織 · 高適別韋五</span>
+    </div>
+  </div>
+
+  <!-- 主內容視窗 -->
+  <main class="main-container">
+
+    <!-- ══════════════════════════════════════════
+         分頁 1：創作與吟唱工作台 (Workstation)
+         ══════════════════════════════════════════ -->
+    <section class="tab-section active-tab" id="tabCraft">
+      <div class="craft-card">
+        <div class="card-title">
+          <span>🪶 近體詩格律創作與吟詠工作台</span>
+          <span style="font-size:0.85rem; color:var(--ink-muted); font-weight:normal;">依據《聲調舉隅》定通式與曾教授基模即時校驗</span>
+        </div>
+
+        <!-- 體制與格律設定 -->
+        <div class="config-grid">
+          <div class="form-group">
+            <label class="form-label">詩題意境主題</label>
+            <select id="cfgPoemThemeSelect" class="select-box" onchange="onThemeChange()">
+              <option value="campus" selected>🌱 校園青春 · 同窗情懷（硯席/青雲/春華）</option>
+              <option value="nature">🍁 四時風物 · 山水清音（春風/明月/孤舟）</option>
+              <option value="study">🏔️ 登高遠望 · 書齋夜讀（危樓/挑燈/更漏）</option>
+              <option value="grit">🦅 逆境自勵 · 堅守初心（松柏/石壁/孤雲）</option>
+              <option value="farewell">⛵ 離別懷遠 · 尺素相知（故人/天涯/長亭）</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">選擇詩體與截取來源</label>
+            <select id="cfgPoemType" class="select-box" onchange="applyConfigChange()">
+              <option value="7_jue_1" selected>七言絕句 · 截首尾兩聯（全首散行·最常見）</option>
+              <option value="7_jue_2">七言絕句 · 截後半首（首聯對偶）</option>
+              <option value="7_jue_4">七言絕句 · 截中間兩聯（全首對偶）</option>
+              <option value="5_jue_1">五言絕句 · 截首尾兩聯（全首散行）</option>
+              <option value="5_jue_2">五言絕句 · 截後半首（首聯對偶）</option>
+              <option value="7_lu">七言律詩 · 八句（頷頸兩聯必對偶）</option>
+              <option value="5_lu">五言律詩 · 八句（頷頸兩聯必對偶）</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">起句格律模式</label>
+            <select id="cfgMeterFmt" class="select-box" onchange="applyConfigChange()">
+              <option value="ping_ru" selected>平起正格（首句入韻）</option>
+              <option value="ping_bu">平起變格（首句不入韻）</option>
+              <option value="ze_ru">仄起正格（首句入韻）</option>
+              <option value="ze_bu">仄起變格（首句不入韻）</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">詩卡書法字體</label>
+            <select id="cfgFontChoice" class="select-box" onchange="drawPoemCard()">
+              <option value="xingkai" selected>🖌️ 墨舞行楷體（提按分明·氣韻生動）</option>
+              <option value="kaiti">🖋️ 經典標楷體（中鋒端整·文人骨力）</option>
+              <option value="lishu">🏛️ 古拙漢隸體（沉雄古厚·金石古韻）</option>
+              <option value="songti">📖 宋刻古籍體（秀麗端重·刻本墨韻）</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">宣紙形制與朱記</label>
+            <select id="cfgStationery" class="select-box" onchange="drawPoemCard()">
+              <option value="wusilan_mark" selected>📜 烏絲欄古宣 · 附雪廬聲調朱記</option>
+              <option value="wusilan">📜 烏絲欄古宣 · 純淨字面</option>
+              <option value="zhusilan">🏮 朱絲欄彩箋 · 薛濤紅格</option>
+              <option value="pure">🎋 墨竹留白箋 · 純水墨意境</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 詩題與作者 -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div class="form-group">
+            <label class="form-label">詩題</label>
+            <input type="text" id="cfgPoemTitle" class="text-input" value="秋夜讀雪廬詩譜有感" placeholder="例如：春暮漫興">
+          </div>
+          <div class="form-group">
+            <label class="form-label">作者姓名</label>
+            <input type="text" id="cfgPoemAuthor" class="text-input" value="臺中女中 研習生" placeholder="作者姓名">
+          </div>
+        </div>
+
+        <!-- 曾教授四大基模與音律動力儀 -->
+        <div class="melody-vis-panel">
+          <div class="vis-header">
+            <span>📊 曾永義教授【體製基模與音律波形動力儀】</span>
+            <span id="melodyFormula">公式：AbBa（平起正格）</span>
+          </div>
+          <div class="melody-wave-box" id="melodyVisualWave">
+            載入中...
+          </div>
+        </div>
+
+        <!-- 逐句輸入與即時平仄審定（含雪廬老人符號譜） -->
+        <div id="verseLinesWrapper" style="display:flex; flex-direction:column; gap:12px;">
+          <!-- 動態生成各句 -->
+        </div>
+
+        <!-- ══════════════════════════════════════════
+             雪廬老人《吟誦常則》互動吟誦導引面板
+             ══════════════════════════════════════════ -->
+        <div class="chant-player-card">
+          <div class="chant-header">
+            <h3><span>🎵 雪廬老人《吟誦常則》古典吟誦導引器</span></h3>
+            <span class="chant-rule-reminder">常則：平長仄短 · 入聲急促 · 停應守 · 聲可變</span>
+          </div>
+
+          <div class="chant-controls">
+            <button class="btn-chant-play" id="btnChantPlay" onclick="toggleChanting()">
+              <span id="chantPlayIcon">▶</span>
+              <span id="chantPlayText">開始古風吟誦導引</span>
+            </button>
+            <button class="btn-chant-stop" onclick="stopChanting()">⏹ 停止</button>
+
+            <div style="display:flex; align-items:center; gap:6px; font-size:0.85rem; color:#d8cbba;">
+              <span>速度：</span>
+              <select id="chantSpeedSelect" class="select-box" style="padding:4px 8px; font-size:0.8rem; background:#19120e; color:#f7eedb; border-color:#5c4738;">
+                <option value="1.2">慢吟（沉潛宛轉）</option>
+                <option value="1.0" selected>舒吟（標準常則）</option>
+                <option value="0.8">快吟（俊朗明快）</option>
+              </select>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:6px; font-size:0.85rem; color:#d8cbba;">
+              <span>調式：</span>
+              <select id="chantKeySelect" class="select-box" style="padding:4px 8px; font-size:0.8rem; background:#19120e; color:#f7eedb; border-color:#5c4738;">
+                <option value="F" selected>F 調（雪廬傳授正調）</option>
+                <option value="G">G 調（清越高雅）</option>
+                <option value="C">C 調（沉渾厚重）</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 提詞器看板 -->
+          <div class="prompter-stage">
+            <div style="font-size:0.8rem; color:#888; margin-bottom:4px;">【吟誦提詞器 · 光標與節拍同步跳動】</div>
+            <div class="prompter-lines" id="prompterLinesBox">
+              <!-- 提詞字詞動態載入 -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 拗救指南針卡片 -->
+        <div class="niujiu-box" id="niujiuBox">
+          <strong style="color:#d9822b;">⚠️ 曾教授與雪廬老人拗救指引：</strong>
+          <span id="niujiuText">偵測到詩句出現「拗音」。曾永義教授與雪廬老人皆指出：「凡不合平仄格式的字，即為拗。遇到這種情況，就要救，稱拗救（句變小借/大借）。」</span>
+        </div>
+
+        <!-- 四聲遞換雷達 -->
+        <div class="tone-radar-box">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <strong style="color:var(--secondary-green);">📡 曾永義院士【四聲遞換精緻度雷達】</strong>
+            <label style="font-size:0.8rem; cursor:pointer;"><input type="checkbox" id="chkFourToneMode" checked onchange="auditAll()"> 開啟平上去入四聲精析</label>
+          </div>
+          <div id="fourToneStatusText" style="line-height:1.6; color:var(--ink-muted);">
+            正在檢測句內平上去入四聲分佈，以及非押韻句尾「句尾四聲遞換」...
+          </div>
+        </div>
+
+        <!-- 操作按鈕 -->
+        <div style="display:flex; justify-content:flex-end; gap:12px; flex-wrap:wrap;">
+          <button class="btn-secondary" onclick="loadXueLuSamplePoem()">📜 載入雪廬老人典範〈殘燭〉</button>
+          <button class="btn-secondary" onclick="loadLectureSamplePoem()">📖 載入曾教授典範杜甫〈促織〉</button>
+          <button class="btn-main" onclick="triggerCardGeneration()">🎨 全詩檢定 · 生成古宣詩卡 ➔</button>
+        </div>
+
+        <!-- 詩卡成果區 -->
+        <div class="card-preview-area" id="cardResultArea">
+          <h3 style="color:var(--primary-red); margin-bottom:6px;">📜 近體詩格律創作與吟詠認證詩卡</h3>
+          <p style="font-size:0.85rem; color:var(--ink-muted);">直排書法排版，蓋有「曾氏體製認證」、「雪廬吟則」與「雅芬審定」朱砂印章：</p>
+          
+          <div class="canvas-scroll-wrapper">
+            <canvas id="poemCanvas" width="620" height="840"></canvas>
+          </div>
+
+          <div style="display:flex; gap:12px; margin-top:10px;">
+            <button class="btn-main" onclick="downloadPoemImage()">📥 下載高解析詩卡 PNG</button>
+            <button class="btn-secondary" onclick="printPoemCard()">🖨️ 列印詩卡</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         分頁 2：宗師學理合璧展板 (Master Theory)
+         ══════════════════════════════════════════ -->
+    <section class="tab-section" id="tabTheory">
+      <div class="craft-card">
+        <div class="card-title">
+          <span>📚 雪廬老人聲調舉隅與吟誦常則宗要（兼採曾院士體製論）</span>
+        </div>
+        
+        <div style="line-height:1.8; font-size:0.92rem; color:var(--ink-dark); display:flex; flex-direction:column; gap:16px;">
+          <!-- 雪廬老人聲調舉隅與吟誦常則 -->
+          <div style="background:#fdf7ee; border-left:4px solid var(--gold-accent); padding:14px 18px; border-radius:6px;">
+            <strong style="color:#8f6617; font-size:1.1rem;">一、雪廬老人《聲調舉隅》與《吟誦常則》要義</strong>
+            <p style="margin-top:6px;">
+              • <strong>詩與唱之體用</strong>：「詩循聲調，唱依樂譜，名雖有岐，其道一也。詩乃唱之精魂，唱乃詩之聲響。」<br>
+              • <strong>聲調譜符號法</strong>：
+                - <code>—</code>：平聲（平聲長吟）<br>
+                - <code>｜</code>：仄聲（仄聲短促）<br>
+                - <code>▲</code>：黑角，代表「可通融之聲」<br>
+                - <code>◎</code>：雙圈，代表「押韻之腳」<br>
+              • <strong>《吟誦常則》四大核心原則</strong>：<br>
+                1. <strong>平長仄短</strong>：平聲字氣度舒緩長吟，仄聲字（上、去）簡明短促。<br>
+                2. <strong>入聲急促</strong>：古代入聲（質、黠、曷、鐸等部字，現代分派三聲）必須急迫短促、戛然而止，不拖長腔！<br>
+                3. <strong>停應守，聲可變</strong>：句中音節頓逗（五言二／三、七言四／三）與句末之停頓必須恪守，不可混亂；而音高可依個人聲線靈活變通。<br>
+                4. <strong>字調與句變</strong>：揭櫫「小借式」與「大借式」之句變奧妙，指出古人聲律富於變化而非死板教條。
+            </p>
+          </div>
+
+          <!-- 曾永義院士體製理論 -->
+          <div style="background:#fbf4e8; border-left:4px solid var(--primary-red); padding:14px 18px; border-radius:6px;">
+            <strong style="color:var(--primary-red); font-size:1.1rem;">二、曾永義教授《近體詩之體製規律》核心學理</strong>
+            <p style="margin-top:6px;">
+              • <strong>平仄四大基模</strong>：五言為 A(平平平仄仄)、a(平平仄仄平)、B(仄仄平平仄)、b(仄仄仄平平)。七言於平頭加仄仄、仄頭加平平。<br>
+              • <strong>對與黏的美學辯證</strong>：Ab 或 Ba 為「對」（相反衝突）；aA 或 bB 為「黏」（相同延續）。<br>
+              • <strong>音律美學哲理</strong>：一句之中「先和諧而後衝突」，句與句間「先衝突而後和諧」，相生相激，綿延為抑揚曲直之豐富旋律。<br>
+              • <strong>絕句四源</strong>：首尾兩聯（散行）、後半首（首聯對）、前半首（末聯對）、中二聯（全首對）。<br>
+              • <strong>孤平與拗救</strong>：a 句式第一字作仄則犯孤平，逼促窒礙非救不可；對句互救（杜甫促織）與本句自救（高適別韋五）為大師圓融之法。<br>
+              • <strong>四聲遞換</strong>：杜少陵「晚節漸於詩律細」，句中平上去入均勻，句末四聲相間輪轉。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════
+         分頁 3：名作典範譜 (Classics)
+         ══════════════════════════════════════════ -->
+    <section class="tab-section" id="tabClassics">
+      <div class="craft-card">
+        <div class="card-title">
+          <span>📜 宗師典範作品譜錄（聲調譜與吟唱分析）</span>
+        </div>
+        
+        <div style="display:flex; flex-direction:column; gap:14px; font-size:0.9rem;">
+          <div style="background:#fff; border:1px solid var(--border-color); padding:14px; border-radius:8px;">
+            <strong style="color:var(--primary-red);">雪廬老人 李炳南〈殘燭〉（五絕仄起首句不入韻式典範 ·《浮海集上》）：</strong>
+            <p style="margin-top:6px; font-family:monospace; line-height:1.8;">
+              未改心腸熱，（｜｜——｜）<br>
+              全憐暗路人。（——｜｜—◎）<br>
+              但能光照遠，（｜——｜｜）<br>
+              不惜自焚身。（｜｜｜——◎）<br>
+              <span style="color:#666; font-size:0.82rem;">【雪廬老人原詩正解】（收錄於《雪廬詩集·浮海集上》）：雪公自況名篇，首聯「未改心腸熱，全憐暗路人」以殘燭之熱腸憐憫暗夜行路者；後聯「但能光照遠，不惜自焚身」展現燃燒自己照徹遠方的大悲願力。押平水韻上平十一真韻（人、身），第三字「惜」字為古入聲字（入聲十一陌），短促有力！</span>
+            </p>
+          </div>
+
+          <div style="background:#fff; border:1px solid var(--border-color); padding:14px; border-radius:8px;">
+            <strong style="color:var(--primary-red);">杜甫〈促織〉（曾教授講義：對句互救典範）：</strong>
+            <p style="margin-top:6px; font-family:monospace; line-height:1.8;">
+              促織甚微細，（｜｜｜—｜）<br>
+              哀鳴何動人。（—— —｜—◎）<br>
+              <span style="color:#666; font-size:0.82rem;">【曾教授評析】：出句「甚」拗仄，對句「何」特用平聲，兩相調配互救！</span>
+            </p>
+          </div>
+
+          <div style="background:#fff; border:1px solid var(--border-color); padding:14px; border-radius:8px;">
+            <strong style="color:var(--primary-red);">曾永義教授〈寧夏雜詠〉（四聲遞換極致之作）：</strong>
+            <p style="margin-top:6px; font-family:monospace; line-height:1.8;">
+              巨河九曲竟朝東，【句末平】（上平上入去平平）<br>
+              多少帝王歌大風。【句末平】（平上去平平去平）<br>
+              濤沒古今皆綺夢，【句末去】（平入上平平上去）<br>
+              力征南北盡驚鴻。【句末平】（入平平入去平平）<br>
+              炎黃李杜雖千古，【句末上】（平平上去平平上）<br>
+              世道人心未一功。【句末平】（去上平平去入平）<br>
+              山水幸能消塊結，【句末入】（平上上平平去入）<br>
+              何如暢快酒杯中。【句末平】（平平去去上平平）<br>
+              <span style="color:#666; font-size:0.82rem;">【曾教授自述】：一三五七句末尾字分別為「平、去、上、入」，完美達成四聲遞換！</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 底部固定導航 -->
+  <nav class="bottom-nav">
+    <button class="nav-btn active-nav" id="btnNavCraft" onclick="switchNav('tabCraft', 'btnNavCraft')">
+      <span class="nav-icon">🪶</span>
+      <span>創作與吟唱</span>
+    </button>
+    <button class="nav-btn" id="btnNavTheory" onclick="switchNav('tabTheory', 'btnNavTheory')">
+      <span class="nav-icon">📚</span>
+      <span>宗師學理合璧</span>
+    </button>
+    <button class="nav-btn" id="btnNavClassics" onclick="switchNav('tabClassics', 'btnNavClassics')">
+      <span class="nav-icon">📜</span>
+      <span>典範作品譜</span>
+    </button>
+  </nav>
+
+<script>
+  /* ══════════════════════════════════════════
+     1. 四聲分類字庫與基模
+     ══════════════════════════════════════════ */
+  const RU_SET = new Set([
+    "一","七","八","十","百","國","白","日","月","竹","石","出","發","獨","客",
+    "識","策","極","節","雪","滅","德","得","合","學","福","北","絕","屋","局",
+    "佛","質","失","物","作","昔","夕","折","吃","室","結","決","骨","黑","木",
+    "目","服","伏","毒","俗","族","足","卒","濁","捉","雀","鵲","錯","託","拍",
+    "逼","席","習","襲","惜","戚","歷","力","立","尺","切","達","殺","察","雜",
+    "熱","徹","葉","接","涉","閣","帖","渴","法","括","抹","壓","拔","割"
+  ]);
+
+  const SHANG_SET = new Set([
+    "九","五","雨","水","走","古","語","老","滿","短","海","嶺","草","遠","里",
+    "鳥","影","引","渚","有","首","手","口","齒","女","子","小","幾","此","己",
+    "取","耳","者","野","渚","往","兩","酒","柳","好","早","綺","倚","抱","曉",
+    "展","短","暖","緩","免","返","轉","軟","慘","覽","減","點","染","掩"
+  ]);
+
+  const QU_SET = new Set([
+    "至","去","大","夜","暮","送","客","意","思","望","路","漫","動","處","外",
+    "見","淚","亂","怨","別","斷","勝","乘","夢","命","世","道","醉","賦","拜",
+    "慶","鏡","暗","釣","岸","檣","萬","面","步","樹","故","照","罷","退","喚",
+    "變","遍","信","問","認","戰","扇","殿","見","算","伴","換","漫","看"
+  ]);
+
+  const PING_SET = new Set([
+    "東","同","童","銅","公","功","空","紅","通","平","風","松","龍","峰","農",
+    "宗","中","聲","成","情","明","晴","英","清","生","春","人","新","身","神",
+    "真","雲","親","田","天","煙","年","千","川","連","仙","泉","圓","言","香",
+    "光","涼","長","堂","陽","房","商","鄉","秋","舟","樓","流","愁","修","遊",
+    "由","留","頭","休","知","枝","吹","垂","微","飛","高","豪","寒","安","端",
+    "歡","官","冠","金","心","塵","琴","尋","林","今","南","帆","山","關","顏",
+    "殘","眉","思","池","馳","旗","疑","芳","茫","江","霜","荒","芒","涼","鄉"
+  ]);
+
+  function getFourTone(ch) {
+    if (!ch || !ch.trim()) return null;
+    if (RU_SET.has(ch)) return { tone: "ru", name: "入", category: "ze" };
+    if (SHANG_SET.has(ch)) return { tone: "shang", name: "上", category: "ze" };
+    if (QU_SET.has(ch)) return { tone: "qu", name: "去", category: "ze" };
+    if (PING_SET.has(ch)) return { tone: "ping", name: "平", category: "ping" };
+    return { tone: "ping", name: "平", category: "ping" };
+  }
+
+  /* ══════════════════════════════════════════
+     2. 曾永義四大基模與雪廬老人聲調譜結合
+     ══════════════════════════════════════════ */
+  const TSENG_MODELS = {
+    "7_jue_1": {
+      name: "七絕 · 截首尾兩聯（全首散行）",
+      lines: [
+        { model: "a", name: "首聯出句", pattern: ["p","P","z","Z","z","P","R"], xuelu: ["▲","—","▲","｜","▲","—","◎"], rhyme: true, dui: false },
+        { model: "b", name: "首聯對句", pattern: ["z","Z","p","P","z","Z","R"], xuelu: ["▲","｜","▲","—","▲","｜","◎"], rhyme: true, dui: false },
+        { model: "A", name: "尾聯出句", pattern: ["z","Z","p","P","p","Z","Z"], xuelu: ["▲","｜","▲","—","▲","｜","｜"], rhyme: false, dui: false },
+        { model: "a", name: "尾聯對句", pattern: ["p","P","z","Z","z","P","R"], xuelu: ["▲","—","▲","｜","▲","—","◎"], rhyme: true, dui: false }
+      ],
+      desc: "截取律詩首尾兩聯，全首不用對偶，雪廬老人稱為正格最常式。"
+    },
+    "7_jue_2": {
+      name: "七絕 · 截後半首（首聯對偶）",
+      lines: [
+        { model: "A", name: "首聯出句（宜對偶）", pattern: ["p","P","z","Z","p","Z","Z"], xuelu: ["▲","—","▲","｜","▲","｜","｜"], rhyme: false, dui: true },
+        { model: "b", name: "首聯對句（宜對偶）", pattern: ["z","Z","p","P","z","Z","R"], xuelu: ["▲","｜","▲","—","▲","｜","◎"], rhyme: true, dui: true },
+        { model: "A", name: "尾聯出句", pattern: ["z","Z","p","P","p","Z","Z"], xuelu: ["▲","｜","▲","—","▲","｜","｜"], rhyme: false, dui: false },
+        { model: "a", name: "尾聯對句", pattern: ["p","P","z","Z","z","P","R"], xuelu: ["▲","—","▲","｜","▲","—","◎"], rhyme: true, dui: false }
+      ],
+      desc: "截取律詩後半首，首聯對偶（如王之渙〈登鸛雀樓〉）。"
+    },
+    "7_jue_4": {
+      name: "七絕 · 截中間兩聯（全首對偶）",
+      lines: [
+        { model: "A", name: "首聯出句（宜對偶）", pattern: ["p","P","z","Z","p","Z","Z"], xuelu: ["▲","—","▲","｜","▲","｜","｜"], rhyme: false, dui: true },
+        { model: "b", name: "首聯對句（宜對偶）", pattern: ["z","Z","p","P","z","Z","R"], xuelu: ["▲","｜","▲","—","▲","｜","◎"], rhyme: true, dui: true },
+        { model: "B", name: "尾聯出句（宜對偶）", pattern: ["z","Z","p","P","p","Z","Z"], xuelu: ["▲","｜","▲","—","▲","｜","｜"], rhyme: false, dui: true },
+        { model: "a", name: "尾聯對句（宜對偶）", pattern: ["p","P","z","Z","z","P","R"], xuelu: ["▲","—","▲","｜","▲","—","◎"], rhyme: true, dui: true }
+      ],
+      desc: "截取律詩中間兩聯，全首兩聯皆用對偶（如杜甫〈絕句〉兩個黃鸝鳴翠柳）。"
+    },
+    "5_jue_1": {
+      name: "五絕 · 截首尾兩聯（全首散行）",
+      lines: [
+        { model: "a", name: "首聯出句", pattern: ["p","P","z","Z","R"], xuelu: ["▲","—","｜","｜","◎"], rhyme: true, dui: false },
+        { model: "b", name: "首聯對句", pattern: ["z","Z","z","P","R"], xuelu: ["▲","｜","｜","—","◎"], rhyme: true, dui: false },
+        { model: "A", name: "尾聯出句", pattern: ["p","P","p","Z","Z"], xuelu: ["▲","—","—","｜","｜"], rhyme: false, dui: false },
+        { model: "a", name: "尾聯對句", pattern: ["p","P","z","Z","R"], xuelu: ["▲","—","｜","｜","◎"], rhyme: true, dui: false }
+      ],
+      desc: "五絕散行截首尾兩聯。"
+    },
+    "5_jue_2": {
+      name: "五絕 · 截後半首（首聯對偶）",
+      lines: [
+        { model: "A", name: "首聯出句（宜對偶）", pattern: ["p","P","p","Z","Z"], xuelu: ["▲","—","—","｜","｜"], rhyme: false, dui: true },
+        { model: "b", name: "首聯對句（宜對偶）", pattern: ["z","Z","z","P","R"], xuelu: ["▲","｜","｜","—","◎"], rhyme: true, dui: true },
+        { model: "A", name: "尾聯出句", pattern: ["p","P","p","Z","Z"], xuelu: ["▲","—","—","｜","｜"], rhyme: false, dui: false },
+        { model: "a", name: "尾聯對句", pattern: ["p","P","z","Z","R"], xuelu: ["▲","—","｜","｜","◎"], rhyme: true, dui: false }
+      ],
+      desc: "五絕截後半首，如白日依山盡。"
+    },
+    "7_lu": {
+      name: "七言律詩 · 八句（頷頸兩聯必對偶）",
+      lines: [
+        { model: "a", name: "首聯出句", pattern: ["p","P","z","Z","z","P","R"], xuelu: ["▲","—","▲","｜","▲","—","◎"], rhyme: true, dui: false },
+        { model: "b", name: "首聯對句", pattern: ["z","Z","p","P","z","Z","R"], xuelu: ["▲","｜","▲","—","▲","｜","◎"], rhyme: true, dui: false },
+        { model: "A", name: "頷聯出句（必對偶）", pattern: ["z","Z","p","P","p","Z","Z"], xuelu: ["▲","｜","▲","—","▲","｜","｜"], rhyme: false, dui: true },
+        { model: "a", name: "頷聯對句（必對偶）", pattern: ["p","P","z","Z","z","P","R"], xuelu: ["▲","—","▲","｜","▲","—","◎"], rhyme: true, dui: true },
+        { model: "b", name: "頸聯出句（必對偶）", pattern: ["p","P","z","Z","p","Z","Z"], xuelu: ["▲","—","▲","｜","▲","｜","｜"], rhyme: false, dui: true },
+        { model: "a", name: "頸聯對句（必對偶）", pattern: ["z","Z","p","P","z","Z","R"], xuelu: ["▲","｜","▲","—","▲","｜","◎"], rhyme: true, dui: true },
+        { model: "A", name: "尾聯出句", pattern: ["z","Z","p","P","p","Z","Z"], xuelu: ["▲","｜","▲","—","▲","｜","｜"], rhyme: false, dui: false },
+        { model: "a", name: "尾聯對句", pattern: ["p","P","z","Z","z","P","R"], xuelu: ["▲","—","▲","｜","▲","—","◎"], rhyme: true, dui: false }
+      ],
+      desc: "七律八句五十六字，頷頸兩聯嚴守對仗。"
+    },
+    "5_lu": {
+      name: "五言律詩 · 八句（頷頸兩聯必對偶）",
+      lines: [
+        { model: "a", name: "首聯出句", pattern: ["p","P","z","Z","R"], xuelu: ["▲","—","｜","｜","◎"], rhyme: true, dui: false },
+        { model: "b", name: "首聯對句", pattern: ["z","Z","z","P","R"], xuelu: ["▲","｜","｜","—","◎"], rhyme: true, dui: false },
+        { model: "A", name: "頷聯出句（必對偶）", pattern: ["p","P","p","Z","Z"], xuelu: ["▲","—","—","｜","｜"], rhyme: false, dui: true },
+        { model: "a", name: "頷聯對句（必對偶）", pattern: ["z","Z","p","P","R"], xuelu: ["▲","｜","—","—","◎"], rhyme: true, dui: true },
+        { model: "b", name: "頸聯出句（必對偶）", pattern: ["z","Z","z","Z","P"], xuelu: ["▲","｜","｜","｜","—"], rhyme: false, dui: true },
+        { model: "a", name: "頸聯對句（必對偶）", pattern: ["p","P","z","Z","R"], xuelu: ["▲","—","｜","｜","◎"], rhyme: true, dui: true },
+        { model: "A", name: "尾聯出句", pattern: ["p","P","p","Z","Z"], xuelu: ["▲","—","—","｜","｜"], rhyme: false, dui: false },
+        { model: "a", name: "尾聯對句", pattern: ["z","Z","p","P","R"], xuelu: ["▲","｜","—","—","◎"], rhyme: true, dui: false }
+      ],
+      desc: "五律八句四十字，頷聯與頸聯工整對仗。"
+    }
+  };
+
+  let curActiveInput = "verseInp_0";
+
+  function applyConfigChange() {
+    buildVerseInputs();
+    auditAll();
+    updatePrompter();
+  }
+
+  function buildVerseInputs() {
+    const typeKey = document.getElementById('cfgPoemType').value;
+    const modelData = TSENG_MODELS[typeKey] || TSENG_MODELS["7_jue_1"];
+    const wrapper = document.getElementById('verseLinesWrapper');
+    const existing = [];
+    wrapper.querySelectorAll('.verse-input-field').forEach(inp => existing.push(inp.value));
+
+    wrapper.innerHTML = '';
+    const charLen = modelData.lines[0].pattern.length;
+
+    modelData.lines.forEach((line, idx) => {
+      const card = document.createElement('div');
+      card.className = 'verse-card';
+
+      // 雪廬老人符號譜字串
+      const xueluStr = line.xuelu.map(s => `<span class="xuelu-symbol-badge">${s}</span>`).join(' ');
+
+      card.innerHTML = `
+        <div class="verse-header">
+          <span class="verse-badge">第 ${idx + 1} 句 · ${line.name} 【曾氏基模：${line.model}】</span>
+          <span>${line.dui ? '⚖️ 需對偶' : '散行'} · ${line.rhyme ? '<strong style="color:var(--primary-red);">★ 押平聲韻</strong>' : '不押韻'}</span>
+        </div>
+        <div class="xuelu-notation-row">
+          <span>📜 雪廬老人聲調譜：</span>
+          <div>${xueluStr}</div>
+          <span style="font-size:0.72rem; color:#888;">(—平 ｜仄 ▲通 ◎韻)</span>
+        </div>
+        <input type="text" id="verseInp_${idx}" class="verse-input-field" maxlength="${charLen}"
+          placeholder="請輸入 ${charLen} 字（標格律：${line.pattern.map(p => p==='R'?'平(韻)':(p==='P'||p==='p'?'平':'仄')).join('')}）" 
+          value="${existing[idx] || ''}"
+          oninput="auditAll(); updatePrompter();" onfocus="curActiveInput='verseInp_${idx}'">
+        <div class="char-metric-row" id="charAuditRow_${idx}"></div>
+        <div style="margin-top:6px;">
+          <button type="button" class="btn-inspiration-toggle" onclick="toggleLineInspiration(${idx})">
+            💡 展開第 ${idx + 1} 句靈感詞庫（合【${line.name}】詩境與本句平仄）
+          </button>
+          <div id="lineInspirationDrawer_${idx}" class="verse-inspiration-drawer" style="display:none;"></div>
+        </div>
+      `;
+      wrapper.appendChild(card);
+    });
+
+    updateMelodyVisual(modelData);
+  }
+
+  function updateMelodyVisual(modelData) {
+    const waveBox = document.getElementById('melodyVisualWave');
+    let txt = `【曾永義體制截取】：${modelData.desc}\n【基模動力排列】：`;
+    modelData.lines.forEach((l, i) => {
+      txt += `第${i+1}句[${l.model}] `;
+      if (i % 2 === 1 && i < modelData.lines.length - 1) txt += "➔ (黏·和諧) ➔ ";
+      else if (i % 2 === 0) txt += "⚔️ (對·衝突) ⚔️ ";
+    });
+    txt += `\n【雪廬老人常則】：停應守，聲可變。平長仄短，入聲急促！`;
+    waveBox.innerText = txt;
+  }
+
+  function auditAll() {
+    const typeKey = document.getElementById('cfgPoemType').value;
+    const modelData = TSENG_MODELS[typeKey] || TSENG_MODELS["7_jue_1"];
+    const fourToneActive = document.getElementById('chkFourToneMode').checked;
+
+    let rhymes = [];
+    let endTones = [];
+    let hasNiuJiu = false;
+
+    modelData.lines.forEach((line, lIdx) => {
+      const inp = document.getElementById(`verseInp_${lIdx}`);
+      const row = document.getElementById(`charAuditRow_${lIdx}`);
+      if (!inp || !row) return;
+
+      const val = inp.value.trim();
+      row.innerHTML = '';
+
+      for (let i = 0; i < line.pattern.length; i++) {
+        const target = line.pattern[i];
+        const ch = val[i] || '—';
+        const info = getFourTone(ch);
+
+        const cell = document.createElement('div');
+        cell.className = 'char-cell';
+
+        let tagClass = 'tag-ping';
+        let statusDesc = target === 'R' ? '平(韻)' : (target==='P'||target==='p' ? '平' : '仄');
+
+        if (i < val.length) {
+          if (info.tone === 'ru') {
+            tagClass = 'tag-ru';
+          } else if (info.category === 'ze') {
+            tagClass = 'tag-ze';
+          }
+
+          if (line.pattern.length === 5 && i === 0 && target === 'p' && info.category === 'ze' && val.length >= 5) {
+            hasNiuJiu = true;
+          }
+        }
+
+        cell.innerHTML = `
+          <span class="char-glyph">${ch}</span>
+          <span class="char-spec">${statusDesc}</span>
+          <span class="char-tone-tag ${tagClass}">${fourToneActive ? info.name : (info.category==='ping'?'平':'仄')}</span>
+        `;
+        row.appendChild(cell);
+
+        if (i === line.pattern.length - 1 && i < val.length) {
+          endTones.push({ line: lIdx + 1, char: ch, tone: info.name, isRhyme: line.rhyme });
+          if (line.rhyme) rhymes.push(ch);
+        }
+      }
+    });
+
+    const niujiuBox = document.getElementById('niujiuBox');
+    if (hasNiuJiu) {
+      niujiuBox.style.display = 'block';
+      niujiuBox.innerHTML = `<strong>⚠️ 曾永義與雪廬老人拗救指引：</strong>此句第一字或第三字犯拗，有犯孤平之虞！曾教授提醒：「平聲單薄逼促窒礙，非救不可！」雪廬老人《聲調舉隅》亦列有小借式自救與大借式互救，可參考杜甫〈促織〉以對句互救，或高適〈別韋五〉以本句第四字自救！`;
+    } else {
+      niujiuBox.style.display = 'none';
+    }
+
+    const fourToneTxt = document.getElementById('fourToneStatusText');
+    if (endTones.length >= 2) {
+      let nonRhymeTones = endTones.filter(e => !e.isRhyme).map(e => `第${e.line}句[${e.char}:${e.tone}聲]`).join('，');
+      fourToneTxt.innerHTML = `
+        <strong>句末聲調審核：</strong>${nonRhymeTones || '目前全為押韻句'}<br>
+        <span style="color:#2c594c;">💡 曾教授與雪廬老人評析：一、三、五、七句句尾宜平、上、去、入相間交替（如杜甫〈曲江〉句末為「平、上、去、入」四聲遞換，聲律最為協調和美）！</span>
+      `;
+    }
+  }
+
+  /* ══════════════════════════════════════════
+     3. 雪廬老人《吟誦常則》互動吟誦導引引擎
+     平長、仄短、入聲急促、停應守、聲可變
+     ══════════════════════════════════════════ */
+  let chantAudioCtx = null;
+  let isChanting = false;
+  let chantTimeoutIds = [];
+
+  function initChantAudio() {
+    if (!chantAudioCtx) {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      chantAudioCtx = new AudioCtx();
+    }
+    if (chantAudioCtx.state === 'suspended') {
+      chantAudioCtx.resume();
+    }
+  }
+
+  // 根據調式取得五聲音階基準頻率 (F調, G調, C調)
+  const PENTATONIC_BASE = {
+    "F": { gong: 349.23, shang: 392.00, jue: 440.00, zhi: 523.25, yu: 587.33, highGong: 698.46 },
+    "G": { gong: 392.00, shang: 440.00, jue: 493.88, zhi: 587.33, yu: 659.25, highGong: 783.99 },
+    "C": { gong: 261.63, shang: 293.66, jue: 329.63, zhi: 392.00, yu: 440.00, highGong: 523.25 }
+  };
+
+  // 播放仿古琴／編鐘之微顫音
+  function playClassicalTone(freq, durMs, isRu) {
+    if (!chantAudioCtx) return;
+    try {
+      const osc = chantAudioCtx.createOscillator();
+      const gain = chantAudioCtx.createGain();
+      const durSec = durMs / 1000;
+
+      // 古琴/磬音波形
+      osc.type = isRu ? 'sawtooth' : 'triangle';
+      osc.frequency.setValueAtTime(freq, chantAudioCtx.currentTime);
+
+      // 若為平聲長音，加入微弱的吟詠轉音效果
+      if (!isRu && durMs > 600) {
+        osc.frequency.linearRampToValueAtTime(freq * 1.015, chantAudioCtx.currentTime + durSec * 0.4);
+        osc.frequency.linearRampToValueAtTime(freq, chantAudioCtx.currentTime + durSec * 0.8);
+      }
+
+      // 音量封套 (Envelope)
+      gain.gain.setValueAtTime(0.01, chantAudioCtx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.22, chantAudioCtx.currentTime + 0.04);
+
+      if (isRu) {
+        // 入聲：急迫短促，戛然而止
+        gain.gain.exponentialRampToValueAtTime(0.0001, chantAudioCtx.currentTime + durSec);
+      } else {
+        // 平聲/上/去：舒緩延綿
+        gain.gain.exponentialRampToValueAtTime(0.001, chantAudioCtx.currentTime + durSec);
+      }
+
+      osc.connect(gain);
+      gain.connect(chantAudioCtx.destination);
+      osc.start();
+      osc.stop(chantAudioCtx.currentTime + durSec);
+    } catch(e) {}
+  }
+
+  function updatePrompter() {
+    const box = document.getElementById('prompterLinesBox');
+    box.innerHTML = '';
+    const inps = document.querySelectorAll('.verse-input-field');
+
+    inps.forEach((inp, lineIdx) => {
+      const val = inp.value.trim() || '—'.repeat(inp.maxLength || 7);
+      const row = document.createElement('div');
+      row.className = 'prompter-line-row';
+
+      for (let i = 0; i < val.length; i++) {
+        const span = document.createElement('span');
+        span.className = 'prompt-char';
+        span.id = `pChar_${lineIdx}_${i}`;
+        span.innerText = val[i];
+        row.appendChild(span);
+
+        // 插入音節頓逗標記 (停應守：五言二三，七言四三)
+        if (val.length === 5 && i === 1) {
+          const pause = document.createElement('span');
+          pause.className = 'prompt-pause-mark';
+          pause.innerText = '／';
+          row.appendChild(pause);
+        } else if (val.length === 7 && (i === 1 || i === 3)) {
+          const pause = document.createElement('span');
+          pause.className = 'prompt-pause-mark';
+          pause.innerText = '／';
+          row.appendChild(pause);
+        }
+      }
+      box.appendChild(row);
+    });
+  }
+
+  function toggleChanting() {
+    if (isChanting) {
+      stopChanting();
+    } else {
+      startChanting();
+    }
+  }
+
+  function stopChanting() {
+    isChanting = false;
+    chantTimeoutIds.forEach(id => clearTimeout(id));
+    chantTimeoutIds = [];
+    document.querySelectorAll('.prompt-char').forEach(c => c.classList.remove('active-glow'));
+    document.getElementById('chantPlayIcon').innerText = '▶';
+    document.getElementById('chantPlayText').innerText = '開始古風吟誦導引';
+  }
+
+  function startChanting() {
+    initChantAudio();
+    stopChanting();
+    isChanting = true;
+    document.getElementById('chantPlayIcon').innerText = '⏸';
+    document.getElementById('chantPlayText').innerText = '正在按律吟詠...';
+
+    const keyChoice = document.getElementById('chantKeySelect').value;
+    const speedMultiplier = parseFloat(document.getElementById('chantSpeedSelect').value) || 1.0;
+    const baseFreqs = PENTATONIC_BASE[keyChoice] || PENTATONIC_BASE["F"];
+
+    // 彙整所有字與音韻特徵
+    const inps = document.querySelectorAll('.verse-input-field');
+    const typeKey = document.getElementById('cfgPoemType').value;
+    const modelData = TSENG_MODELS[typeKey] || TSENG_MODELS["7_jue_1"];
+
+    let queue = [];
+    let currentTimeMs = 200;
+
+    inps.forEach((inp, lineIdx) => {
+      const val = inp.value.trim();
+      const lineLen = val.length || inp.maxLength;
+      const isRhymeLine = modelData.lines[lineIdx] ? modelData.lines[lineIdx].rhyme : (lineIdx % 2 === 1);
+
+      for (let i = 0; i < lineLen; i++) {
+        const ch = val[i] || '—';
+        const info = getFourTone(ch);
+        const isRu = (info.tone === 'ru');
+        const isPing = (info.category === 'ping');
+        const isEnd = (i === lineLen - 1);
+
+        // 雪廬常則時值計算：
+        // 平聲長（800ms）、仄聲短（400ms）、入聲急促（160ms）、韻腳長延留（1200ms）
+        let dur = isPing ? 750 : 380;
+        if (isRu) dur = 160; // 入聲極短
+        if (isEnd && isRhymeLine) dur = 1150; // 韻腳悠長
+
+        dur = dur * speedMultiplier;
+
+        // 音高旋律輪廓 (雪廬吟誦調五音起伏：宮商角徵羽)
+        let freq = baseFreqs.gong;
+        if (isPing) {
+          freq = isEnd ? baseFreqs.gong : (i % 2 === 0 ? baseFreqs.jue : baseFreqs.zhi);
+        } else {
+          freq = isRu ? baseFreqs.highGong : (i % 2 === 0 ? baseFreqs.shang : baseFreqs.yu);
+        }
+
+        queue.push({
+          lineIdx: lineIdx,
+          charIdx: i,
+          ch: ch,
+          freq: freq,
+          dur: dur,
+          isRu: isRu,
+          startTime: currentTimeMs
+        });
+
+        currentTimeMs += dur + 50;
+
+        // 頓逗停頓（停應守）
+        if (lineLen === 5 && i === 1) currentTimeMs += 250 * speedMultiplier;
+        if (lineLen === 7 && (i === 1 || i === 3)) currentTimeMs += 220 * speedMultiplier;
+      }
+
+      // 句末停逗 (每句之間大停)
+      currentTimeMs += (isRhymeLine ? 500 : 350) * speedMultiplier;
+    });
+
+    // 排程播放
+    queue.forEach(item => {
+      const tId = setTimeout(() => {
+        if (!isChanting) return;
+        // 光標高亮
+        document.querySelectorAll('.prompt-char').forEach(c => c.classList.remove('active-glow'));
+        const el = document.getElementById(`pChar_${item.lineIdx}_${item.charIdx}`);
+        if (el) el.classList.add('active-glow');
+
+        // 音樂合成
+        playClassicalTone(item.freq, item.dur, item.isRu);
+      }, item.startTime);
+
+      chantTimeoutIds.push(tId);
+    });
+
+    // 播放完畢自動收煞
+    const endTId = setTimeout(() => {
+      stopChanting();
+    }, currentTimeMs + 400);
+    chantTimeoutIds.push(endTId);
+  }
+
+  function loadXueLuSamplePoem() {
+    document.getElementById('cfgPoemType').value = "5_jue_1";
+    document.getElementById('cfgMeterFmt').value = "ze_bu";
+    applyConfigChange();
+    document.getElementById('cfgPoemTitle').value = "殘燭（雪廬老人示範作）";
+    document.getElementById('cfgPoemAuthor').value = "雪廬 · 李炳南";
+
+    const lines = [
+      "未改心腸熱",
+      "全憐暗路人",
+      "但能光照遠",
+      "不惜自焚身"
+    ];
+
+    lines.forEach((txt, i) => {
+      const inp = document.getElementById(`verseInp_${i}`);
+      if (inp) inp.value = txt;
+    });
+
+    auditAll();
+    updatePrompter();
+    alert("已正確載入雪廬老人原詩〈殘燭〉（《雪廬詩集·浮海集上》）：「未改心腸熱，全憐暗路人。但能光照遠，不惜自焚身。」！請點擊『開始古風吟誦導引』，體會『熱、惜』二字入聲急煞與『人、身』平水韻十一真韻平長悠揚之美！");
+  }
+
+  function loadLectureSamplePoem() {
+    document.getElementById('cfgPoemType').value = "5_lu";
+    applyConfigChange();
+    document.getElementById('cfgPoemTitle').value = "促織（杜甫·拗救典範）";
+    document.getElementById('cfgPoemAuthor').value = "唐 · 杜甫";
+
+    const dufuLines = [
+      "促織甚微細",
+      "哀鳴何動人",
+      "草根寒不振",
+      "夜半立微晨",
+      "物性各有極",
+      "秋深何所欣",
+      "暗飛空自得",
+      "露下獨紛紜"
+    ];
+
+    dufuLines.forEach((txt, i) => {
+      const inp = document.getElementById(`verseInp_${i}`);
+      if (inp) inp.value = txt;
+    });
+
+    auditAll();
+    updatePrompter();
+    alert("已載入曾永義教授講義第4頁典範：杜甫〈促織〉！請特別觀察出句「甚」字與對句「何」字之『對句互救』美學！");
+  }
+
+  /* ══════════════════════════════════════════
+     4. 宣紙書法詩卡生成 (Canvas Engine)
+     ══════════════════════════════════════════ */
+  function triggerCardGeneration() {
+    document.getElementById('cardResultArea').style.display = 'flex';
+    drawPoemCard();
+    document.getElementById('cardResultArea').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  function drawPoemCard() {
+    const canvas = document.getElementById('poemCanvas');
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width;
+    const h = canvas.height;
+
+    const fontChoice = document.getElementById('cfgFontChoice').value;
+    const paperChoice = document.getElementById('cfgStationery').value;
+
+    let calliFont = "'Ma Shan Zheng', 'Kaiti TC', 'BiauKai', 'DFKai-SB', 'STKaiti', serif";
+    if (fontChoice === 'kaiti') calliFont = "'Kaiti TC', 'BiauKai', 'DFKai-SB', 'STKaiti', serif";
+    else if (fontChoice === 'lishu') calliFont = "'LiSu', 'SimLi', 'Kaiti TC', serif";
+    else if (fontChoice === 'songti') calliFont = "'Noto Serif TC', 'Songti TC', serif";
+
+    // 1. 底色
+    ctx.fillStyle = "#faf3e5";
+    ctx.fillRect(0, 0, w, h);
+
+    // 宣紙微細紋理
+    ctx.fillStyle = "rgba(180, 160, 130, 0.12)";
+    for (let i = 0; i < 400; i++) {
+      ctx.fillRect(Math.random() * w, Math.random() * h, 2, 2);
+    }
+
+    // 2. 邊框
+    ctx.strokeStyle = "#8b342a";
+    ctx.lineWidth = 4;
+    ctx.strokeRect(20, 20, w - 40, h - 40);
+    ctx.strokeStyle = "#c49a45";
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(26, 26, w - 52, h - 52);
+
+    const verses = [];
+    document.querySelectorAll('.verse-input-field').forEach(inp => verses.push(inp.value.trim()));
+    const title = document.getElementById('cfgPoemTitle').value.trim() || "無題";
+    const author = document.getElementById('cfgPoemAuthor').value.trim() || "佚名";
+
+    // 3. 詩箋格線
+    const isJueJu = verses.length === 4;
+    const colSpacing = isJueJu ? 66 : 46;
+    const startX = w - 120;
+    const startY = 160;
+    const lineSpacingY = isJueJu ? 44 : 38;
+
+    if (paperChoice.includes('wusilan') || paperChoice === 'zhusilan') {
+      ctx.strokeStyle = paperChoice === 'zhusilan' ? "rgba(185, 60, 45, 0.28)" : "rgba(90, 80, 70, 0.22)";
+      ctx.lineWidth = 1;
+      const totalCols = verses.length + 3;
+      for (let c = 0; c <= totalCols; c++) {
+        const lx = startX + 70 - c * colSpacing;
+        ctx.beginPath();
+        ctx.moveTo(lx, 100);
+        ctx.lineTo(lx, h - 100);
+        ctx.stroke();
+      }
+      ctx.beginPath();
+      ctx.moveTo(startX + 70 - totalCols * colSpacing, 100);
+      ctx.lineTo(startX + 70, 100);
+      ctx.moveTo(startX + 70 - totalCols * colSpacing, h - 100);
+      ctx.lineTo(startX + 70, h - 100);
+      ctx.stroke();
+    }
+
+    // 4. 引首章 (右上角長方形朱印)
+    ctx.fillStyle = "rgba(185, 45, 30, 0.88)";
+    ctx.fillRect(startX + 30, 90, 26, 50);
+    ctx.strokeStyle = "#fff";
+    ctx.strokeRect(startX + 32, 92, 22, 46);
+    ctx.fillStyle = "#fff";
+    ctx.font = `bold 11px ${calliFont}`;
+    ctx.textAlign = "center";
+    ctx.fillText("詩", startX + 43, 110);
+    ctx.fillText("境", startX + 43, 130);
+
+    // 5. 詩題 (直排·硃砂色)
+    ctx.fillStyle = "#8b342a";
+    ctx.font = `bold 28px ${calliFont}`;
+    ctx.textAlign = "center";
+    for (let i = 0; i < title.length; i++) {
+      ctx.fillText(title[i], startX + 44, 170 + i * 36);
+    }
+
+    // 6. 詩句與雪廬聲調朱記
+    ctx.fillStyle = "#181412";
+    ctx.font = isJueJu ? `bold 32px ${calliFont}` : `bold 25px ${calliFont}`;
+    const showMark = paperChoice === 'wusilan_mark';
+
+    verses.forEach((v, vIdx) => {
+      const colX = startX - vIdx * colSpacing;
+      for (let c = 0; c < v.length; c++) {
+        ctx.fillText(v[c], colX, startY + c * lineSpacingY);
+
+        // 雪廬聲調朱記（平長橫線、入聲角點、韻腳朱圈）
+        if (showMark) {
+          const info = getFourTone(v[c]);
+          ctx.fillStyle = "rgba(185, 45, 30, 0.75)";
+          if (info.tone === 'ru') {
+            // 入聲：右上小方點急促
+            ctx.fillRect(colX + 16, startY + c * lineSpacingY - 18, 5, 5);
+          } else if (info.category === 'ping') {
+            // 平聲：右側細橫線
+            ctx.fillRect(colX + 16, startY + c * lineSpacingY - 10, 8, 2);
+          }
+          ctx.fillStyle = "#181412"; // 換回墨色
+        }
+      }
+    });
+
+    // 7. 作者落款
+    const authX = startX - verses.length * colSpacing - 30;
+    ctx.fillStyle = "#4a4038";
+    ctx.font = `18px ${calliFont}`;
+    const authStr = `${author} 敬製`;
+    for (let a = 0; a < authStr.length; a++) {
+      ctx.fillText(authStr[a], authX, 280 + a * 26);
+    }
+
+    // 8. 壓角三方名印（曾氏體製 + 雪廬吟則 + 雅芬審定）
+    const drawSeal = (x, y, t1, t2) => {
+      ctx.fillStyle = "rgba(185, 45, 30, 0.9)";
+      ctx.fillRect(x, y, 54, 54);
+      ctx.strokeStyle = "#fff";
+      ctx.lineWidth = 1.2;
+      ctx.strokeRect(x + 2, y + 2, 50, 50);
+      ctx.fillStyle = "#fff";
+      ctx.font = `bold 11px ${calliFont}`;
+      ctx.textAlign = "center";
+      ctx.fillText(t1, x + 27, y + 24);
+      ctx.fillText(t2, x + 27, y + 42);
+    };
+
+    drawSeal(authX - 28, 480, "體製", "合度");
+    drawSeal(authX - 28, 546, "雪廬", "吟則");
+    drawSeal(authX - 28, 612, "雅芬", "審定");
+
+    // 底部文字
+    ctx.textAlign = "center";
+    ctx.fillStyle = "#888";
+    ctx.font = "12px serif";
+    ctx.fillText("近體詩格律創作與吟詠工坊 · 雪廬老人與曾永義院士詩學傳承 · 臺中女中國文科", w / 2, h - 35);
+  }
+
+  function downloadPoemImage() {
+    const canvas = document.getElementById('poemCanvas');
+    const a = document.createElement('a');
+    a.download = `近體詩創作與吟誦詩卡_${document.getElementById('cfgPoemTitle').value || '創作'}.png`;
+    a.href = canvas.toDataURL();
+    a.click();
+  }
+
+  function printPoemCard() {
+    const canvas = document.getElementById('poemCanvas');
+    const dataUrl = canvas.toDataURL();
+    const win = window.open('', '_blank');
+    win.document.write(`
+      <html>
+        <head><title>列印近體詩宣紙詩卡</title></head>
+        <body style="margin:0; display:flex; justify-content:center; align-items:center; min-height:100vh; background:#333;">
+          <img src="${dataUrl}" style="max-width:90%; height:auto; box-shadow:0 0 20px rgba(0,0,0,0.5);" onload="window.print(); window.close();" />
+        </body>
+      </html>
+    `);
+    win.document.close();
+  }
+
+  function switchNav(tabId, navBtnId) {
+    document.querySelectorAll('.tab-section').forEach(s => s.classList.remove('active-tab'));
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active-nav'));
+    document.getElementById(tabId).classList.add('active-tab');
+    document.getElementById(navBtnId).classList.add('active-nav');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function showTheoryTab(type) {
+    switchNav('tabTheory', 'btnNavTheory');
+  }
+
+
+  /* ══════════════════════════════════════════
+     詩境意象與格律詞庫資料庫 (Vocab Scaffolding DB)
+     ══════════════════════════════════════════ */
+  const VOCAB_DATABASE = {
+    "campus": {
+      name: "校園青春·同窗立志",
+      themePrompt: "青春校園、硯席同窗、勤學立志、惜取韶光",
+      posHints: {
+        0: "【起句·立基調】：寫校園景致或同窗情緣，引發詩思。",
+        1: "【承句·推意蘊】：承接校園時光，深化研讀切磋之景，★偶句必押平聲韻。",
+        2: "【轉句·拓波瀾】：轉思人生志向、離合或青雲之志，翻出新意，不押韻。",
+        3: "【合句·寄深情】：收結通篇，表達對同窗之勉勵與對未來之期許，★必押平聲韻。"
+      },
+      ping_ping: [
+        { w: "同窗", t: "平平" }, { w: "春華", t: "平平" }, { w: "青雲", t: "平平" }, 
+        { w: "書齋", t: "平平" }, { w: "晨曦", t: "平平" }, { w: "清風", t: "平平" }, 
+        { w: "韶光", t: "平平" }, { w: "青衿", t: "平平" }, { w: "長風", t: "平平" },
+        { w: "相逢", t: "平平" }, { w: "明燈", t: "平平" }, { w: "心聲", t: "平平" }
+      ],
+      ze_ze: [
+        { w: "硯席", t: "仄仄" }, { w: "立雪", t: "仄仄入" }, { w: "策勵", t: "仄仄" }, 
+        { w: "苦讀", t: "仄仄入" }, { w: "默坐", t: "仄仄" }, { w: "淬礪", t: "仄仄" }, 
+        { w: "奮勉", t: "仄仄" }, { w: "玉尺", t: "仄仄入" }, { w: "正道", t: "仄仄" },
+        { w: "自省", t: "仄仄" }, { w: "競進", t: "仄仄" }, { w: "志節", t: "仄仄入" }
+      ],
+      ping_ze: [
+        { w: "求索", t: "平仄入" }, { w: "修德", t: "平仄入" }, { w: "深造", t: "平仄" },
+        { w: "同勉", t: "平仄" }, { w: "相引", t: "平仄" }, { w: "行遠", t: "平仄" },
+        { w: "精進", t: "平仄" }, { w: "真理", t: "平仄" }
+      ],
+      ze_ping: [
+        { w: "致知", t: "仄平" }, { w: "伴行", t: "仄平" }, { w: "惜春", t: "仄平" },
+        { w: "問津", t: "仄平" }, { w: "抱琴", t: "仄平" }, { w: "寄情", t: "仄平" },
+        { w: "進階", t: "仄平" }, { w: "握珠", t: "仄平" }
+      ],
+      end_rhyme_ping: [
+        { w: "伴青雲", t: "仄平平(十一真)" }, { w: "趁芳華", t: "仄平平(十支)" },
+        { w: "惜寸陰", t: "仄仄平(十二侵)" }, { w: "動九天", t: "仄仄平(一先)" },
+        { w: "共平生", t: "仄平平(八庚)" }, { w: "樂道真", t: "仄仄平(十一真)" },
+        { w: "寄素衷", t: "仄仄平(一東)" }, { w: "啟遠途", t: "仄仄平(七虞)" },
+        { w: "賦新詩", t: "仄平平(四支)" }, { w: "動文星", t: "仄平平(八庚)" }
+      ],
+      end_non_rhyme: [
+        { w: "照客衣", t: "平仄平" }, { w: "正及時", t: "仄平平" },
+        { w: "自策馳", t: "仄仄平" }, { w: "念初心", t: "仄平平" },
+        { w: "發深思", t: "仄平平" }, { w: "待曉曦", t: "仄仄平" }
+      ],
+      couplets: [
+        { out: "硯席研經史", dui: "同窗伴雪霜", t: "仄仄平平仄 ⟷ 平平仄仄平" },
+        { out: "筆下生春色", dui: "胸中納海瀾", t: "仄仄平平仄 ⟷ 平平仄仄平" },
+        { out: "青春惜寸晷", dui: "白首慕名山", t: "平平仄仄仄 ⟷ 仄仄仄平平" }
+      ]
+    },
+    "nature": {
+      name: "四時風物·山水清音",
+      themePrompt: "山水靈秀、四季流轉、春風明月、孤舟遠岫",
+      posHints: {
+        0: "【起句·繪景】：捕捉四時典型景致（山、川、雲、樹），寓目感懷。",
+        1: "【承句·生情】：由景入微，描繪聲響光影或生機，★偶句必押平聲韻。",
+        2: "【轉句·拓境】：視角由近轉遠，或由外在景物轉入內在孤懷，不押韻。",
+        3: "【合句·悠遠】：景情交融，以開闊或幽靜之境作結，餘韻嫋嫋，★必押平聲韻。"
+      },
+      ping_ping: [
+        { w: "春風", t: "平平" }, { w: "青山", t: "平平" }, { w: "寒霜", t: "平平" }, 
+        { w: "孤舟", t: "平平" }, { w: "長江", t: "平平" }, { w: "清泉", t: "平平" }, 
+        { w: "星河", t: "平平" }, { w: "斜陽", t: "平平" }, { w: "殘霞", t: "平平" },
+        { w: "疏林", t: "平平" }, { w: "松風", t: "平平" }, { w: "平湖", t: "平平" }
+      ],
+      ze_ze: [
+        { w: "碧水", t: "仄仄" }, { w: "落木", t: "仄仄入" }, { w: "細雨", t: "仄仄" }, 
+        { w: "翠竹", t: "仄仄入" }, { w: "宿鳥", t: "仄仄" }, { w: "暮靄", t: "仄仄" }, 
+        { w: "古渡", t: "仄仄" }, { w: "野寺", t: "仄仄" }, { w: "斷壁", t: "仄仄入" },
+        { w: "落葉", t: "仄仄入" }, { w: "片石", t: "仄仄入" }, { w: "疊嶂", t: "仄仄" }
+      ],
+      ping_ze: [
+        { w: "明月", t: "平仄入" }, { w: "山色", t: "平仄入" }, { w: "風浪", t: "平仄" },
+        { w: "波湧", t: "平仄" }, { w: "雲散", t: "平仄" }, { w: "煙起", t: "平仄" },
+        { w: "花發", t: "平仄入" }, { w: "鳥囀", t: "平仄" }
+      ],
+      ze_ping: [
+        { w: "石苔", t: "仄入平" }, { w: "綠波", t: "仄入平" }, { w: "斷橋", t: "仄平" },
+        { w: "遠林", t: "仄平" }, { w: "渡頭", t: "仄平" }, { w: "竹扉", t: "仄入平" },
+        { w: "片帆", t: "仄平" }, { w: "雪山", t: "仄入平" }
+      ],
+      end_rhyme_ping: [
+        { w: "入遠山", t: "仄仄平(一先)" }, { w: "動遠空", t: "仄仄平(一東)" },
+        { w: "過萬重", t: "仄仄平(二冬)" }, { w: "聽暮蟬", t: "仄仄平(一先)" },
+        { w: "泛白鷗", t: "仄仄平(十一尤)" }, { w: "帶晚煙", t: "仄仄平(一先)" },
+        { w: "照落花", t: "仄仄平(十支)" }, { w: "倚客檣", t: "仄仄平(七陽)" },
+        { w: "水自流", t: "仄仄平(十一尤)" }, { w: "到夕陽", t: "仄仄平(七陽)" }
+      ],
+      end_non_rhyme: [
+        { w: "落日斜", t: "仄仄平" }, { w: "草自春", t: "仄仄平" },
+        { w: "靜客心", t: "仄仄平" }, { w: "滿釣船", t: "仄仄平" },
+        { w: "宿野亭", t: "仄仄平" }, { w: "水不波", t: "仄仄平" }
+      ],
+      couplets: [
+        { out: "明月松間照", dui: "清泉石上流", t: "平仄平平仄 ⟷ 平平仄仄平" },
+        { out: "漠漠水田飛白鷺", dui: "陰陰夏木囀黃鸝", t: "仄仄平平平仄仄 ⟷ 平平仄仄仄平平" },
+        { out: "綠樹村邊合", dui: "青山郭外斜", t: "仄仄平平仄 ⟷ 平平仄仄平" }
+      ]
+    },
+    "study": {
+      name: "登高遠望·書齋夜讀",
+      themePrompt: "危樓憑軒、深夜挑燈、研讀聖賢、神思萬里",
+      posHints: {
+        0: "【起句·立境】：寫夜深沉寂或登樓遠眺之時空情境。",
+        1: "【承句·深思】：寫卷帙墨香、展讀前賢，或望中風物，★偶句必押平聲韻。",
+        2: "【轉句·生波】：寫心中疑思、歷史興亡或天涯之感，不押韻。",
+        3: "【合句·了悟】：言志明理，以超脫或警醒之句結尾，★必押平聲韻。"
+      },
+      ping_ping: [
+        { w: "挑燈", t: "平平" }, { w: "長空", t: "平平" }, { w: "星河", t: "平平" }, 
+        { w: "幽居", t: "平平" }, { w: "高樓", t: "平平" }, { w: "書林", t: "平平" }, 
+        { w: "神思", t: "平平" }, { w: "文星", t: "平平" }, { w: "冰壺", t: "平平" },
+        { w: "清吟", t: "平平" }, { w: "松窗", t: "平平" }, { w: "深更", t: "平平" }
+      ],
+      ze_ze: [
+        { w: "卷帙", t: "仄仄" }, { w: "更漏", t: "仄仄" }, { w: "獨坐", t: "仄仄" }, 
+        { w: "石室", t: "仄仄入" }, { w: "靜照", t: "仄仄" }, { w: "案牘", t: "仄仄入" }, 
+        { w: "遠岫", t: "仄仄" }, { w: "古硯", t: "仄仄" }, { w: "默會", t: "仄仄" },
+        { w: "雪壁", t: "仄仄入" }, { w: "筆力", t: "仄仄入" }, { w: "素願", t: "仄仄" }
+      ],
+      ping_ze: [
+        { w: "展讀", t: "平仄入" }, { w: "問道", t: "平仄" }, { w: "覽勝", t: "平仄" },
+        { w: "看劍", t: "平仄" }, { w: "苦思", t: "平仄" }, { w: "引酌", t: "平仄入" },
+        { w: "撫髀", t: "平仄" }, { w: "把卷", t: "平仄" }
+      ],
+      ze_ping: [
+        { w: "白首", t: "仄入平" }, { w: "絕壁", t: "仄入平" }, { w: "大野", t: "仄平" },
+        { w: "夜雪", t: "仄入平" }, { w: "破暗", t: "仄平" }, { w: "萬里", t: "仄平" },
+        { w: "極目", t: "仄入平" }, { w: "拂硯", t: "仄平" }
+      ],
+      end_rhyme_ping: [
+        { w: "思無涯", t: "仄平平(十支)" }, { w: "破九霄", t: "仄仄平(二蕭)" },
+        { w: "照雪泥", t: "仄仄平(八齊)" }, { w: "發浩歌", t: "仄仄平(五歌)" },
+        { w: "動客魂", t: "仄仄平(十三元)" }, { w: "洗客愁", t: "仄仄平(十一尤)" },
+        { w: "照素懷", t: "仄仄平(九佳)" }, { w: "見性真", t: "仄仄平(十一真)" },
+        { w: "徹古今", t: "仄仄平(十二侵)" }, { w: "立萬峰", t: "仄仄平(二冬)" }
+      ],
+      end_non_rhyme: [
+        { w: "看劍長", t: "仄仄平" }, { w: "引古琴", t: "仄仄平" },
+        { w: "坐翠微", t: "仄仄平" }, { w: "自苦吟", t: "仄仄平" },
+        { w: "倚玉闌", t: "仄仄平" }, { w: "獨遠矚", t: "仄仄仄入" }
+      ],
+      couplets: [
+        { out: "檢書燒燭短", dui: "看劍引杯長", t: "仄平平仄仄 ⟷ 平仄仄平平" },
+        { out: "風林纖月落", dui: "衣露淨琴張", t: "平平平仄仄 ⟷ 仄仄仄平平" },
+        { out: "江流天地外", dui: "山色有無中", t: "平平平仄仄 ⟷ 平仄仄平平" }
+      ]
+    },
+    "grit": {
+      name: "逆境自勵·堅守初心",
+      themePrompt: "風狂雪積、松柏自持、石壁傲骨、堅守初衷",
+      posHints: {
+        0: "【起句·迎風】：寫逆境、嚴寒、驚濤或孤身之嚴苛考驗。",
+        1: "【承句·砥礪】：寫心性堅定、不隨世俗沉浮，★偶句必押平聲韻。",
+        2: "【轉句·拓志】：激發昂揚鬥志或深邃反思，展現人格韌性，不押韻。",
+        3: "【合句·破曉】：寓示終有衝破阻礙、雲開見月之時，★必押平聲韻。"
+      },
+      ping_ping: [
+        { w: "孤雲", t: "平平" }, { w: "初心", t: "平平" }, { w: "長征", t: "平平" }, 
+        { w: "雄心", t: "平平" }, { w: "平生", t: "平平" }, { w: "中天", t: "平平" }, 
+        { w: "冰心", t: "平平" }, { w: "豪情", t: "平平" }, { w: "狂風", t: "平平" },
+        { w: "青峰", t: "平平" }, { w: "貞松", t: "平平" }, { w: "重霄", t: "平平" }
+      ],
+      ze_ze: [
+        { w: "松柏", t: "仄仄入" }, { w: "石壁", t: "仄仄入" }, { w: "傲骨", t: "仄仄入" }, 
+        { w: "勁節", t: "仄仄入" }, { w: "暗夜", t: "仄仄" }, { w: "逆浪", t: "仄仄" }, 
+        { w: "歷劫", t: "仄仄入" }, { w: "破繭", t: "仄仄" }, { w: "鐵漢", t: "仄仄" },
+        { w: "絕壁", t: "仄仄入" }, { w: "萬難", t: "仄仄" }, { w: "百折", t: "仄仄入" }
+      ],
+      ping_ze: [
+        { w: "雪壓", t: "平仄入" }, { w: "自立", t: "平仄入" }, { w: "力抗", t: "平仄" },
+        { w: "不撓", t: "平仄" }, { w: "苦戰", t: "平仄" }, { w: "克難", t: "平仄" },
+        { w: "浩氣", t: "平仄" }, { w: "卓絕", t: "平仄入" }
+      ],
+      ze_ping: [
+        { w: "絕境", t: "仄入平" }, { w: "拔劍", t: "仄入平" }, { w: "鐵甲", t: "仄入平" },
+        { w: "萬仞", t: "仄平" }, { w: "破浪", t: "仄平" }, { w: "奮發", t: "仄入平" },
+        { w: "壯志", t: "仄平" }, { w: "耐冷", t: "仄平" }
+      ],
+      end_rhyme_ping: [
+        { w: "志自強", t: "仄仄平(七陽)" }, { w: "度百關", t: "仄仄平(一先)" },
+        { w: "有赤心", t: "仄仄平(十二侵)" }, { w: "破重圍", t: "仄平平(四支)" },
+        { w: "傲雪霜", t: "仄仄平(七陽)" }, { w: "氣尚雄", t: "仄仄平(一東)" },
+        { w: "展大鵬", t: "仄仄平(十蒸)" }, { w: "動乾坤", t: "仄平平(十三元)" }
+      ],
+      end_non_rhyme: [
+        { w: "未自移", t: "仄仄平" }, { w: "死不休", t: "仄仄平" },
+        { w: "任雪侵", t: "仄仄平" }, { w: "鐵鑄身", t: "仄仄平" },
+        { w: "立峭崖", t: "仄仄平" }, { w: "動地驚", t: "仄仄平" }
+      ],
+      couplets: [
+        { out: "疾風知勁草", dui: "嚴霜識貞松", t: "仄平平仄仄 ⟷ 平平仄仄平" },
+        { out: "歷盡千層浪", dui: "依然一片心", t: "仄仄平平仄 ⟷ 平平仄仄平" },
+        { out: "路遠何須怨", dui: "山高自可登", t: "仄仄平平仄 ⟷ 平平仄仄平" }
+      ]
+    },
+    "farewell": {
+      name: "離別懷遠·尺素相知",
+      themePrompt: "長亭折柳、送別友人、天涯相望、心照神交",
+      posHints: {
+        0: "【起句·聚散】：寫離別之地點（長亭、客舍、江渚）或分手之態。",
+        1: "【承句·依依】：寫把酒餞行、握手言歡之不捨，★偶句必押平聲韻。",
+        2: "【轉句·懸念】：想到征途茫茫、關山阻隔或日後相思，不押韻。",
+        3: "【合句·深情】：雖各在天涯，但靈犀相通，給予真摯祝福，★必押平聲韻。"
+      },
+      ping_ping: [
+        { w: "故人", t: "平平" }, { w: "天涯", t: "平平" }, { w: "孤帆", t: "平平" }, 
+        { w: "行舟", t: "平平" }, { w: "長亭", t: "平平" }, { w: "關山", t: "平平" }, 
+        { w: "相思", t: "平平" }, { w: "幽懷", t: "平平" }, { w: "千山", t: "平平" },
+        { w: "歸期", t: "平平" }, { w: "清尊", t: "平平" }, { w: "離亭", t: "平平" }
+      ],
+      ze_ze: [
+        { w: "折柳", t: "仄仄" }, { w: "送遠", t: "仄仄" }, { w: "別恨", t: "仄仄" }, 
+        { w: "握手", t: "仄仄" }, { w: "客棹", t: "仄仄" }, { w: "尺素", t: "仄仄" }, 
+        { w: "淚眼", t: "仄仄" }, { w: "怨別", t: "仄仄" }, { w: "駐馬", t: "仄仄" },
+        { w: "去雁", t: "仄仄" }, { w: "後約", t: "仄仄入" }, { w: "悵望", t: "仄仄" }
+      ],
+      ping_ze: [
+        { w: "去路", t: "平仄" }, { w: "執袂", t: "平仄" }, { w: "話別", t: "平仄入" },
+        { w: "問信", t: "平仄" }, { w: "贈佩", t: "平仄" }, { w: "極目", t: "平仄入" },
+        { w: "道遠", t: "平仄" }, { w: "相送", t: "平仄" }
+      ],
+      ze_ping: [
+        { w: "落日", t: "仄入平" }, { w: "把酒", t: "仄平" }, { w: "萬里", t: "仄平" },
+        { w: "遠客", t: "仄入平" }, { w: "客邸", t: "仄平" }, { w: "極浦", t: "仄平" },
+        { w: "舊友", t: "仄平" }, { w: "斷雁", t: "仄平" }
+      ],
+      end_rhyme_ping: [
+        { w: "共此時", t: "仄仄平(四支)" }, { w: "夢佳期", t: "仄平平(四支)" },
+        { w: "報平安", t: "仄平平(一先)" }, { w: "憶故人", t: "仄仄平(十一真)" },
+        { w: "送遠行", t: "仄仄平(八庚)" }, { w: "寄客舟", t: "仄仄平(十一尤)" },
+        { w: "動客愁", t: "仄仄平(十一尤)" }, { w: "隔萬山", t: "仄仄平(一先)" }
+      ],
+      end_non_rhyme: [
+        { w: "淚未乾", t: "仄仄平" }, { w: "去路長", t: "仄仄平" },
+        { w: "兩鬢斑", t: "仄仄平" }, { w: "怨笛聲", t: "仄仄平" },
+        { w: "各散分", t: "仄仄平" }, { w: "照別杯", t: "仄仄平" }
+      ],
+      couplets: [
+        { out: "浮雲遊子意", dui: "落日故人情", t: "平平平仄仄 ⟷ 仄仄仄平平" },
+        { out: "海內存知己", dui: "天涯若比鄰", t: "仄仄平平仄 ⟷ 平平仄仄平" },
+        { out: "同是天涯客", dui: "相逢莫問津", t: "平仄平平仄 ⟷ 平平仄仄平" }
+      ]
+    }
+  };
+
+  function onThemeChange() {
+    // 重新渲染已展開的靈感抽屜
+    const openDrawers = document.querySelectorAll('.verse-inspiration-drawer');
+    openDrawers.forEach(d => {
+      if (d.style.display === 'flex') {
+        const lineIdx = parseInt(d.id.replace('lineInspirationDrawer_', ''));
+        renderLineInspiration(lineIdx);
+      }
+    });
+  }
+
+  function toggleLineInspiration(lineIdx) {
+    const drawer = document.getElementById(`lineInspirationDrawer_${lineIdx}`);
+    if (!drawer) return;
+    if (drawer.style.display === 'flex') {
+      drawer.style.display = 'none';
+    } else {
+      renderLineInspiration(lineIdx);
+      drawer.style.display = 'flex';
+    }
+  }
+
+  function renderLineInspiration(lineIdx) {
+    const drawer = document.getElementById(`lineInspirationDrawer_${lineIdx}`);
+    const themeKey = document.getElementById('cfgPoemThemeSelect').value;
+    const themeData = VOCAB_DATABASE[themeKey] || VOCAB_DATABASE["campus"];
+    const typeKey = document.getElementById('cfgPoemType').value;
+    const modelData = TSENG_MODELS[typeKey] || TSENG_MODELS["7_jue_1"];
+    const lineInfo = modelData.lines[lineIdx];
+
+    const posHint = themeData.posHints[lineIdx % 4] || "【律詩對偶聯】：請注意與上一句或下一句在詞性、結構上工整對稱！";
+    const charLen = lineInfo.pattern.length;
+
+    let html = `
+      <div style="background:#f4ece0; padding:8px 12px; border-radius:6px; color:#5c4839; font-weight:600;">
+        💡 <strong>${lineInfo.name}</strong> 詩境指引：${posHint}
+      </div>
+    `;
+
+    // 針對平仄格式精準推薦詞彙
+    if (charLen === 7) {
+      // 7言：前二、中二、結尾三
+      const p1 = lineInfo.pattern[0];
+      const p3 = lineInfo.pattern[2];
+      const isPingHead = (p1 === 'P' || p1 === 'p');
+      const isPingMid = (p3 === 'P' || p3 === 'p');
+
+      const frontWords = isPingHead ? themeData.ping_ping : themeData.ze_ze;
+      const frontToneDesc = isPingHead ? "平平" : "仄仄";
+
+      const midWords = isPingMid ? themeData.ping_ping : themeData.ze_ze;
+      const midToneDesc = isPingMid ? "平平" : "仄仄";
+
+      const endWords = lineInfo.rhyme ? themeData.end_rhyme_ping : themeData.end_non_rhyme;
+      const endToneDesc = lineInfo.rhyme ? "仄平平 / 仄仄平（★押平聲韻）" : "平仄仄 / 仄仄平（不押韻）";
+
+      html += `
+        <div class="insp-group">
+          <div class="insp-group-title">🎯【第 1-2 字候選（${frontToneDesc}）】點字即填入句首：</div>
+          <div class="insp-badge-list">
+            ${frontWords.map(item => `
+              <button type="button" class="vocab-badge-btn" onclick="insertWordToLine(${lineIdx}, '${item.w}')">
+                <span>${item.w}</span><span class="vocab-tone-sub">(${item.t})</span>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="insp-group">
+          <div class="insp-group-title">🎯【第 3-4 字候選（${midToneDesc}）】點字即填入句中：</div>
+          <div class="insp-badge-list">
+            ${midWords.map(item => `
+              <button type="button" class="vocab-badge-btn" onclick="insertWordToLine(${lineIdx}, '${item.w}')">
+                <span>${item.w}</span><span class="vocab-tone-sub">(${item.t})</span>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="insp-group">
+          <div class="insp-group-title">🎯【第 5-7 字候選（${endToneDesc}）】點字即填入句尾：</div>
+          <div class="insp-badge-list">
+            ${endWords.map(item => `
+              <button type="button" class="vocab-badge-btn" onclick="insertWordToLine(${lineIdx}, '${item.w}')" style="${lineInfo.rhyme ? 'border-color:var(--primary-red); font-weight:bold;' : ''}">
+                <span>${item.w}</span><span class="vocab-tone-sub">(${item.t})</span>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    } else {
+      // 5言：前二、後三
+      const p1 = lineInfo.pattern[0];
+      const isPingHead = (p1 === 'P' || p1 === 'p');
+      const frontWords = isPingHead ? themeData.ping_ping : themeData.ze_ze;
+      const frontToneDesc = isPingHead ? "平平" : "仄仄";
+
+      const endWords = lineInfo.rhyme ? themeData.end_rhyme_ping : themeData.end_non_rhyme;
+      const endToneDesc = lineInfo.rhyme ? "仄平平 / 仄仄平（★押平聲韻）" : "平仄仄 / 仄平平（不押韻）";
+
+      html += `
+        <div class="insp-group">
+          <div class="insp-group-title">🎯【第 1-2 字候選（${frontToneDesc}）】點字即填入：</div>
+          <div class="insp-badge-list">
+            ${frontWords.map(item => `
+              <button type="button" class="vocab-badge-btn" onclick="insertWordToLine(${lineIdx}, '${item.w}')">
+                <span>${item.w}</span><span class="vocab-tone-sub">(${item.t})</span>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="insp-group">
+          <div class="insp-group-title">🎯【第 3-5 字候選（${endToneDesc}）】點字即填入句尾：</div>
+          <div class="insp-badge-list">
+            ${endWords.map(item => `
+              <button type="button" class="vocab-badge-btn" onclick="insertWordToLine(${lineIdx}, '${item.w}')" style="${lineInfo.rhyme ? 'border-color:var(--primary-red); font-weight:bold;' : ''}">
+                <span>${item.w}</span><span class="vocab-tone-sub">(${item.t})</span>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    // 若為需對偶之聯（如律詩頷聯頸聯，或絕句截取中間兩聯）
+    if (lineInfo.dui) {
+      html += `
+        <div class="insp-group" style="background:#f0f7f3; padding:10px; border-radius:6px; border:1px solid #bce0ce;">
+          <div class="insp-group-title" style="color:#1d664c;">
+            ⚖️【成對工整對偶範例】點擊直接填入本聯出句與對句：
+          </div>
+          <div class="insp-badge-list">
+            ${themeData.couplets.map(cp => `
+              <button type="button" class="couplet-pair-btn" onclick="insertCoupletPair(${lineIdx}, '${cp.out}', '${cp.dui}')">
+                <strong>${cp.out}</strong> ⟷ <strong>${cp.dui}</strong> <span style="font-size:0.7rem; color:#666;">(${cp.t})</span>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    drawer.innerHTML = html;
+  }
+
+  function insertWordToLine(lineIdx, word) {
+    const inp = document.getElementById(`verseInp_${lineIdx}`);
+    if (!inp) return;
+    const max = inp.maxLength || 7;
+    const curVal = inp.value.trim();
+
+    if (curVal.length + word.length <= max) {
+      inp.value = curVal + word;
+    } else {
+      // 若超過，則若為結尾三字且目前已有字，替換尾部
+      if (word.length === 3 && curVal.length >= 2) {
+        inp.value = curVal.slice(0, max - 3) + word;
+      } else if (word.length === 2 && curVal.length === 0) {
+        inp.value = word;
+      } else {
+        inp.value = word;
+      }
+    }
+
+    auditAll();
+    updatePrompter();
+    inp.focus();
+  }
+
+  function insertCoupletPair(lineIdx, outText, duiText) {
+    // 若當前句為出句 (偶數 index)，填入當前句與下一句
+    // 若當前句為對句 (奇數 index)，填入上一句與當前句
+    let outIdx = lineIdx % 2 === 0 ? lineIdx : lineIdx - 1;
+    let duiIdx = outIdx + 1;
+
+    const outInp = document.getElementById(`verseInp_${outIdx}`);
+    const duiInp = document.getElementById(`verseInp_${duiIdx}`);
+
+    if (outInp) outInp.value = outText;
+    if (duiInp) duiInp.value = duiText;
+
+    auditAll();
+    updatePrompter();
+    if (outInp) outInp.focus();
+  }
+
+  window.onload = () => {
+    buildVerseInputs();
+    auditAll();
+    updatePrompter();
+  };
+</script>
+
+</body>
+</html>
